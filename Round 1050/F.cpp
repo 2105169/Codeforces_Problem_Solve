@@ -1,0 +1,101 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+#define gcd __gcd
+#define ll long long
+
+const ll MOD = 998244353;
+
+int power(int base, int pwr){
+	int res = 1;
+	//pwr = MOD - 2 // if inverse power
+	while(pwr){
+		if (pwr % 2){
+			res = (res * base) % MOD;
+		}
+		pwr >>= 1;
+		base = (base * base) % MOD;
+	}
+	return res;
+}
+
+int factorial(int n){
+	int res = 1;
+	for(int i=1; i<=n; i++){
+		res = (res*i) % MOD;
+	}
+
+	return res;
+}
+
+
+bool prime(ll n)
+{
+    if(n<2)return false;
+    else if(n==2)return true;
+    else if(n%2==0){
+        return false;
+    }
+    else{
+        for(ll i=3; i<=sqrt(n); i+=2){
+            if(n%i==0)return false;
+        }
+    }
+    return true;
+}
+
+vector<ll> prime_factor(ll x){
+    vector<ll> pf;
+    for(ll i=2; i*i<=x; i++){
+        while(x % i == 0){
+            pf.push_back(i);
+            x = x/i;
+        }
+    }
+    if(x>1)pf.push_back(x);
+    return pf;
+}
+
+
+void solve()
+{
+    ll n;
+    cin>>n;
+    vector<vector<ll>> vt;
+    for(ll i=0; i<n;i++){
+        ll t;
+        cin>>t;
+        vector<ll> v;
+        for(ll j=0; j<t; j++){
+            ll x;
+            cin>>x;
+            v.push_back(x);
+        }
+        vt.push_back(v);
+    }
+
+    vector<ll> ans;
+    while(!vt.empty()){
+        sort(vt.begin(), vt.end());
+        ll sz = vt[0].size();
+        for(ll i=0; i<sz; i++){
+            cout << vt[0][i] << " ";
+        }
+        vector<vector<ll>> nxt;
+        for(ll i=0; i<vt.size(); i++){
+            if(vt[i].size()>sz){
+                vector<ll> v;
+                for(ll j=sz; j<vt[i].size(); j++)v.push_back(vt[i][j]);
+                nxt.push_back(v);
+            }
+        }
+        vt = nxt;
+    }
+    cout << endl;
+
+}
+
+int main()
+{
+    int t;cin>>t;while(t--)solve();
+}
